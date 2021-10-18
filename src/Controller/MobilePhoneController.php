@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\MobilePhone;
 use App\Repository\MobilePhoneRepository;
 use App\Representation\MobilePhones;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,7 +12,7 @@ use FOS\RestBundle\Request\ParamFetcherInterface;
 class MobilePhoneController extends AbstractController
 {
     /**
-     * @Rest\Get("/mobiles", name="mobile_phone_list")
+     * @Rest\Get("/mobiles", name="mobile_list")
      * @Rest\QueryParam(
      *     name="order",
      *     requirements="asc|desc",
@@ -32,7 +33,7 @@ class MobilePhoneController extends AbstractController
      * )
      * @Rest\View
      */
-    public function listedOfMobilePhones(MobilePhoneRepository $mobilePhoneRepository, ParamFetcherInterface $paramFetcher)
+    public function listAction(MobilePhoneRepository $mobilePhoneRepository, ParamFetcherInterface $paramFetcher)
     {
         $pager = $mobilePhoneRepository->search(
             $paramFetcher->get('order'),
@@ -42,4 +43,19 @@ class MobilePhoneController extends AbstractController
 
         return new MobilePhones($pager);
     }
+
+    /**
+     * @Rest\Get(
+     * path = "/mobiles/{id}",
+     * name ="mobile_show",
+     * requirements = {"id"="\d+"}
+     * )
+     *
+     * @Rest\View
+     */
+    public function showAction(MobilePhone $mobilePhone)
+    {
+        return $mobilePhone;
+    }
+    
 }
