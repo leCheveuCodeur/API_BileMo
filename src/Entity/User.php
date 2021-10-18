@@ -22,22 +22,22 @@ class User
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $FirstName;
+    private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $LastName;
+    private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Email;
+    private $email;
 
     /**
      * @ORM\ManyToMany(targetEntity=MobilePhone::class)
      */
-    private $ProductsBuy;
+    private $productsBuy;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="Users")
@@ -47,7 +47,7 @@ class User
 
     public function __construct()
     {
-        $this->ProductsBuy = new ArrayCollection();
+        $this->productsBuy = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -57,36 +57,36 @@ class User
 
     public function getFirstName(): ?string
     {
-        return $this->FirstName;
+        return $this->firstName;
     }
 
-    public function setFirstName(string $FirstName): self
+    public function setFirstName(string $firstName): self
     {
-        $this->FirstName = $FirstName;
+        $this->firstName = $firstName;
 
         return $this;
     }
 
     public function getLastName(): ?string
     {
-        return $this->LastName;
+        return $this->lastName;
     }
 
-    public function setLastName(string $LastName): self
+    public function setLastName(string $lastName): self
     {
-        $this->LastName = $LastName;
+        $this->lastName = $lastName;
 
         return $this;
     }
 
     public function getEmail(): ?string
     {
-        return $this->Email;
+        return $this->email;
     }
 
-    public function setEmail(string $Email): self
+    public function setEmail(string $email): self
     {
-        $this->Email = $Email;
+        $this->email = $email;
 
         return $this;
     }
@@ -96,13 +96,13 @@ class User
      */
     public function getProductsBuy(): Collection
     {
-        return $this->ProductsBuy;
+        return $this->productsBuy;
     }
 
     public function addProductsBuy(MobilePhone $productsBuy): self
     {
-        if (!$this->ProductsBuy->contains($productsBuy)) {
-            $this->ProductsBuy[] = $productsBuy;
+        if (!$this->productsBuy->contains($productsBuy)) {
+            $this->productsBuy[] = $productsBuy;
         }
 
         return $this;
@@ -110,7 +110,7 @@ class User
 
     public function removeProductsBuy(MobilePhone $productsBuy): self
     {
-        $this->ProductsBuy->removeElement($productsBuy);
+        $this->productsBuy->removeElement($productsBuy);
 
         return $this;
     }

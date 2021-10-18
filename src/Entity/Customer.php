@@ -22,26 +22,26 @@ class Customer
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $CompanyName;
+    private $companyName;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Email;
+    private $email;
 
     /**
      * @ORM\Column(type="date")
      */
-    private $RegisteredSince;
+    private $registeredSince;
 
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="customer", orphanRemoval=true)
      */
-    private $Users;
+    private $users;
 
     public function __construct()
     {
-        $this->Users = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -51,36 +51,36 @@ class Customer
 
     public function getCompanyName(): ?string
     {
-        return $this->CompanyName;
+        return $this->companyName;
     }
 
-    public function setCompanyName(string $CompanyName): self
+    public function setCompanyName(string $companyName): self
     {
-        $this->CompanyName = $CompanyName;
+        $this->companyName = $companyName;
 
         return $this;
     }
 
     public function getEmail(): ?string
     {
-        return $this->Email;
+        return $this->email;
     }
 
-    public function setEmail(string $Email): self
+    public function setEmail(string $email): self
     {
-        $this->Email = $Email;
+        $this->email = $email;
 
         return $this;
     }
 
     public function getRegisteredSince(): ?\DateTimeInterface
     {
-        return $this->RegisteredSince;
+        return $this->registeredSince;
     }
 
-    public function setRegisteredSince(\DateTimeInterface $RegisteredSince): self
+    public function setRegisteredSince(\DateTimeInterface $registeredSince): self
     {
-        $this->RegisteredSince = $RegisteredSince;
+        $this->registeredSince = $registeredSince;
 
         return $this;
     }
@@ -90,13 +90,13 @@ class Customer
      */
     public function getUsers(): Collection
     {
-        return $this->Users;
+        return $this->users;
     }
 
     public function addUser(User $user): self
     {
-        if (!$this->Users->contains($user)) {
-            $this->Users[] = $user;
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
             $user->setCustomer($this);
         }
 
@@ -105,7 +105,7 @@ class Customer
 
     public function removeUser(User $user): self
     {
-        if ($this->Users->removeElement($user)) {
+        if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
             if ($user->getCustomer() === $this) {
                 $user->setCustomer(null);

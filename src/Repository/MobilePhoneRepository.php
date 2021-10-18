@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\MobilePhone;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -12,39 +11,19 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method MobilePhone[]    findAll()
  * @method MobilePhone[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MobilePhoneRepository extends ServiceEntityRepository
+class MobilePhoneRepository extends AbstractRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, MobilePhone::class);
     }
 
-    // /**
-    //  * @return MobilePhone[] Returns an array of MobilePhone objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function search(string $order = 'asc', int $limit = 20, int $offset = 1)
     {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('m')
+            ->select('m')
+            ->orderBy('m.id', $order);
 
-    /*
-    public function findOneBySomeField($value): ?MobilePhone
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $this->paginate($qb, $limit, $offset);
     }
-    */
 }

@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\MobilePhoneRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Expose;
+use App\Repository\MobilePhoneRepository;
+use JMS\Serializer\Annotation\ExclusionPolicy;
 
 /**
  * @ORM\Entity(repositoryClass=MobilePhoneRepository::class)
+ * @ExclusionPolicy("all")
  */
 class MobilePhone
 {
@@ -14,33 +17,45 @@ class MobilePhone
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *
+     * @Expose
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Expose
      */
-    private $Model;
+    private $model;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Expose
      */
-    private $Manufacturer;
+    private $manufacturer;
 
     /**
      * @ORM\Column(type="string")
+     *
+     * @Expose
      */
-    private $Year;
+    private $year;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", precision=6, scale=2)
+     *
+     * @Expose
      */
-    private $Price;
+    private $price;
 
     /**
      * @ORM\Column(type="text")
+     *
+     * @Expose
      */
-    private $Description;
+    private $description;
 
     public function getId(): ?int
     {
@@ -49,60 +64,60 @@ class MobilePhone
 
     public function getModel(): ?string
     {
-        return $this->Model;
+        return $this->model;
     }
 
-    public function setModel(string $Model): self
+    public function setModel(string $model): self
     {
-        $this->Model = $Model;
+        $this->model = $model;
 
         return $this;
     }
 
     public function getManufacturer(): ?string
     {
-        return $this->Manufacturer;
+        return $this->manufacturer;
     }
 
-    public function setManufacturer(string $Manufacturer): self
+    public function setManufacturer(string $manufacturer): self
     {
-        $this->Manufacturer = $Manufacturer;
+        $this->manufacturer = $manufacturer;
 
         return $this;
     }
 
     public function getYear(): ?string
     {
-        return $this->Year;
+        return $this->year;
     }
 
-    public function setYear(string $Year): self
+    public function setYear(string $year): self
     {
-        $this->Year = $Year;
+        $this->year = $year;
 
         return $this;
     }
 
-    public function getPrice(): ?int
+    public function getPrice(): ?float
     {
-        return $this->Price;
+        return $this->price;
     }
 
-    public function setPrice(int $Price): self
+    public function setPrice(float $price): self
     {
-        $this->Price = $Price;
+        $this->price = $price;
 
         return $this;
     }
 
     public function getDescription(): ?string
     {
-        return $this->Description;
+        return $this->description;
     }
 
-    public function setDescription(string $Description): self
+    public function setDescription(string $description): self
     {
-        $this->Description = $Description;
+        $this->description = $description;
 
         return $this;
     }
