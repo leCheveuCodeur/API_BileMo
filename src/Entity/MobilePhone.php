@@ -3,13 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 use App\Repository\MobilePhoneRepository;
-use JMS\Serializer\Annotation\ExclusionPolicy;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=MobilePhoneRepository::class)
- * @ExclusionPolicy("all")
  */
 class MobilePhone
 {
@@ -18,42 +18,43 @@ class MobilePhone
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
-     * @Expose
+     * @Assert\NotBlank(groups={"Create"})
+     * @JMS\Groups({"mobile_detail","user_detail"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Expose
+     * @JMS\Groups({"mobile_list","mobile_detail","user_detail"})
      */
     private $model;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Expose
+     * @JMS\Groups({"mobile_list","mobile_detail","user_detail"})
      */
     private $manufacturer;
 
     /**
      * @ORM\Column(type="string")
      *
-     * @Expose
+     * @JMS\Groups({"mobile_detail"})
      */
     private $year;
 
     /**
      * @ORM\Column(type="decimal", precision=6, scale=2)
      *
-     * @Expose
+     * @JMS\Groups({"mobile_detail","user_detail"})
      */
     private $price;
 
     /**
      * @ORM\Column(type="text")
      *
-     * @Expose
+     * @JMS\Groups({"mobile_detail"})
      */
     private $description;
 

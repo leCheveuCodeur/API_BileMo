@@ -2,10 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -16,32 +19,48 @@ class User
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @JMS\Groups({"user_detail"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\NotBlank(groups={"Create"})
+     * @JMS\Groups({"user_list", "user_detail"})
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\NotBlank(groups={"Create"})
+     * @JMS\Groups({"user_list", "user_detail"})
      */
     private $lastName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
+     *
+     * @Assert\NotBlank(groups={"Create"})
+     * @JMS\Groups({"user_list", "user_detail"})
      */
     private $email;
 
     /**
      * @ORM\ManyToMany(targetEntity=MobilePhone::class)
+     *
+     * @Assert\NotBlank(groups={"Create"})
+     * @JMS\Type("ArrayCollection<App\Entity\MobilePhone>")
+     * @JMS\Groups({"user_detail"})
      */
     private $productsBuy;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="Users")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @JMS\Groups({"user_create"})
      */
     private $customer;
 

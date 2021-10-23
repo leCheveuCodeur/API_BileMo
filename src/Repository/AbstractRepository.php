@@ -9,16 +9,15 @@ use Pagerfanta\Pagerfanta;
 
 abstract class AbstractRepository extends ServiceEntityRepository
 {
-    protected function paginate(QueryBuilder $qb, $limit = 20, $offset = 1)
+    protected function paginate(QueryBuilder $qb, $maxPerPage = 20, $startedPage = 1)
     {
-        if (0 == $limit || 0 == $offset) {
-            throw new \LogicException('$limit & $offset must be greater than 0');
+        if (0 == $maxPerPage || 0 == $startedPage) {
+            throw new \LogicException('$maxPerPage & $startedPage must be greater than 0');
         }
 
         $pager = new Pagerfanta(new QueryAdapter($qb));
-        $currentPage = $offset;
-        $pager->setCurrentPage($currentPage);
-        $pager->setMaxPerPage((int) $limit);
+        $pager->setMaxPerPage((int) $maxPerPage)
+            ->setCurrentPage($startedPage);
 
         return $pager;
     }
