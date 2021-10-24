@@ -96,4 +96,51 @@ class UserController extends AbstractFOSRestController
 
         return $this->view($user, Response::HTTP_CREATED, ['Location' => $this->generateUrl('user_show', ['id' => $user->getId()])]);
     }
+
+    /**
+     * @Rest\Delete(
+     * path="/api/users/{id}",
+     * name="user_delete",
+     * requirements = {"id"="\d+"}
+     * )
+     *
+     * @Rest\View(StatusCode=Response::HTTP_NO_CONTENT)
+     */
+    public function deleteAction(User $user, EntityManagerInterface $em)
+    {
+        $em->remove($user);
+        $em->flush();
+    }
+
+
+    /**
+     * @Rest\Put(
+     * path="/api/users/{id}",
+     * name="user_put",
+     * requirements = {"id"="\d+"})
+     * @ParamConverter(
+     * "user",
+     * converter="fos_rest.request_body",
+     * options={
+     *  "validator"={"groups"="Create"}
+     * }
+     * )
+     *
+     * @Rest\View(StatusCode=Response::HTTP_NO_CONTENT,serializerGroups={"user_detail","user_create"})
+     */
+    public function putAction(User $user, EntityManagerInterface $em, ConstraintViolationList $violations, UserRepository $userRepository)
+    {
+        if (\count($violations)) {
+            $message = 'The JSON sent contains invalid data: ';
+            foreach ($violations as $violation) {
+                $message .= \sprintf("Field %s: %s ", $violation->getPropertyPath(), $violation->getMessage());
+            }
+            throw new ValidatorException($message);
+        }
+
+        $em->persist($user);
+        $em->flush();
+
+        return $this->view($user, Response::HTTP_CREATED, ['Location' => $this->generateUrl('user_show', ['id' => $user->getId()])]);
+    }
 }
