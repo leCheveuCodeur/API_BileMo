@@ -3,10 +3,11 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Since;
 use JMS\Serializer\Annotation as JMS;
 use App\Repository\MobilePhoneRepository;
-use Symfony\Component\Validator\Constraints as Assert;
 use Hateoas\Configuration\Annotation as Hateoas;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MobilePhoneRepository::class)
@@ -47,6 +48,7 @@ class MobilePhone
      *
      * @Assert\NotBlank(groups={"Create"})
      * @JMS\Groups({"mobile_details","user_details"})
+     * @JMS\Since("1.0")
      */
     private $id;
 
@@ -54,6 +56,7 @@ class MobilePhone
      * @ORM\Column(type="string", length=255)
      *
      * @JMS\Groups({"mobile_list","mobile_details","user_details"})
+     * @JMS\Since("1.0")
      */
     private $model;
 
@@ -61,6 +64,7 @@ class MobilePhone
      * @ORM\Column(type="string", length=255)
      *
      * @JMS\Groups({"mobile_list","mobile_details","user_details"})
+     * @JMS\Since("1.0")
      */
     private $manufacturer;
 
@@ -68,6 +72,7 @@ class MobilePhone
      * @ORM\Column(type="string")
      *
      * @JMS\Groups({"mobile_details"})
+     * @JMS\Since("1.0")
      */
     private $year;
 
@@ -75,6 +80,7 @@ class MobilePhone
      * @ORM\Column(type="decimal", precision=6, scale=2)
      *
      * @JMS\Groups({"mobile_details","user_details"})
+     * @JMS\Since("1.0")
      */
     private $price;
 
@@ -82,6 +88,7 @@ class MobilePhone
      * @ORM\Column(type="text")
      *
      * @JMS\Groups({"mobile_details"})
+     * @JMS\Since("1.0")
      */
     private $description;
 

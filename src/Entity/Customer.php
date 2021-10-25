@@ -22,6 +22,7 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="integer")
      *
      * @JMS\Groups({"user_create"})
+     * @JMS\Since("1.0")
      */
     private $id;
 
@@ -29,16 +30,21 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255, unique=true)
      *
      * @JMS\Groups({"user_create"})
+     * @JMS\Since("1.0")
      */
     private $companyName;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     *
+     * @JMS\Since("1.0")
      */
     private $email;
 
     /**
      * @ORM\Column(type="date")
+     *
+     * @JMS\Since("1.0")
      */
     private $registeredSince;
 
@@ -50,12 +56,15 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     *
+     * @JMS\Since("1.0")
      */
     private $password;
 
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="customer", orphanRemoval=true)
      *
+     * @JMS\Since("1.0")
      */
     private $users;
 

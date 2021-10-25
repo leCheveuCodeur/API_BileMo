@@ -63,7 +63,9 @@ class User
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *
      * @JMS\Groups({"user_details"})
+     * @JMS\Since("1.0")
      */
     private $id;
 
@@ -72,6 +74,7 @@ class User
      *
      * @Assert\NotBlank(groups={"Create"})
      * @JMS\Groups({"user_list", "user_details"})
+     * @JMS\Since("1.0")
      */
     private $firstName;
 
@@ -80,6 +83,7 @@ class User
      *
      * @Assert\NotBlank(groups={"Create"})
      * @JMS\Groups({"user_list", "user_details"})
+     * @JMS\Since("1.0")
      */
     private $lastName;
 
@@ -88,6 +92,7 @@ class User
      *
      * @Assert\NotBlank(groups={"Create"})
      * @JMS\Groups({"user_list", "user_details"})
+     * @JMS\Since("1.0")
      */
     private $email;
 
@@ -98,6 +103,7 @@ class User
      * @JMS\Type("ArrayCollection<App\Entity\MobilePhone>")
      *
      * @JMS\Exclude
+     * @JMS\Since("1.0")
      */
     private $productsBuy;
 
@@ -106,6 +112,7 @@ class User
      * @ORM\JoinColumn(nullable=false)
      *
      * @JMS\Groups({"user_create"})
+     * @JMS\Since("1.0")
      */
     private $customer;
 

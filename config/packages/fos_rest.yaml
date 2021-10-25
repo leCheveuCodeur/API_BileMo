@@ -7,9 +7,16 @@ fos_rest:
     validation_errors_argument: violations
   view:
     view_response_listener: true
-
+    mime_types:
+      json: ["application/json", "application/json;version=1.0"]
   format_listener:
     rules:
       - { path: ^/, fallback_format: json, priorities: [json] }
   serializer:
     serialize_null: true
+  versioning:
+    enabled: true
+    resolvers:
+      media_type:
+        enabled: true
+        regex: '/(v|version)=(?P<version>[0-9\.]+)/'
