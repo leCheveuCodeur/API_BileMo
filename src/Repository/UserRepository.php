@@ -18,7 +18,7 @@ class UserRepository extends AbstractRepository
         parent::__construct($registry, User::class);
     }
 
-    public function search(int $customerId, string $order = 'asc', int $maxPerPages = 20, int $startedPage = 1)
+    public function search(int $customerId, string $route, string $order = 'asc', int $maxPerPages = 20, int $startedPage = 1)
     {
         $qb = $this->createQueryBuilder('u')
             ->select('u')
@@ -26,6 +26,6 @@ class UserRepository extends AbstractRepository
             ->orderBy('u.id', $order)
             ->setParameter('customerId', $customerId);
 
-        return $this->paginate($qb, $maxPerPages, $startedPage);
+        return $this->paginate($qb, $route, $maxPerPages, $startedPage);
     }
 }

@@ -32,17 +32,18 @@ class MobilePhoneController extends AbstractController
      *     description="The pagination offset"
      * )
      *
-     * @Rest\View(serializerGroups={"mobile_list"})
+     * @Rest\View(serializerGroups={"Default","mobile_list"})
      */
     public function listAction(MobilePhoneRepository $mobilePhoneRepository, ParamFetcherInterface $paramFetcher)
     {
-        $pager = $mobilePhoneRepository->search(
+        $paginatedCollection = $mobilePhoneRepository->search(
+            "mobile_list",
             $paramFetcher->get('order'),
             $paramFetcher->get('per_page'),
             $paramFetcher->get('page')
         );
 
-        return $pager;
+        return $paginatedCollection;
     }
 
     /**
@@ -52,7 +53,7 @@ class MobilePhoneController extends AbstractController
      * requirements = {"id"="\d+"}
      * )
      *
-     * @Rest\View(serializerGroups={"mobile_detail"})
+     * @Rest\View(serializerGroups={"mobile_details"})
      */
     public function showAction(MobilePhone $mobilePhone)
     {

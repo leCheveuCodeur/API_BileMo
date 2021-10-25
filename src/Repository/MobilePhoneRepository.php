@@ -18,12 +18,12 @@ class MobilePhoneRepository extends AbstractRepository
         parent::__construct($registry, MobilePhone::class);
     }
 
-    public function search(string $order = 'asc', int $maxPerPages = 20, int $startedPage = 1)
+    public function search(string $route, string $order = 'asc', int $maxPerPages = 20, int $startedPage = 1)
     {
         $qb = $this->createQueryBuilder('m')
             ->select('m')
             ->orderBy('m.id', $order);
 
-        return $this->paginate($qb, $maxPerPages, $startedPage);
+        return $this->paginate($qb, $route, $maxPerPages, $startedPage);
     }
 }

@@ -37,19 +37,20 @@ class UserController extends AbstractFOSRestController
      *     description="The pagination offset"
      * )
      *
-     * @Rest\View(serializerGroups={"user_list"})
+     * @Rest\View(serializerGroups={"Default","user_list"})
      */
     public function listAction(UserRepository $userRepository, ParamFetcherInterface $paramFetcher)
     {
         $customerId = $this->getUser()->getId();
-        $pager = $userRepository->search(
+        $paginatedCollection = $userRepository->search(
             $customerId,
+            "user_list",
             $paramFetcher->get('order'),
             $paramFetcher->get('per_page'),
             $paramFetcher->get('page')
         );
 
-        return $pager;
+        return $paginatedCollection;
     }
 
     /**
@@ -59,7 +60,7 @@ class UserController extends AbstractFOSRestController
      * requirements = {"id"="\d+"}
      * )
      *
-     * @Rest\View(serializerGroups={"user_detail"})
+     * @Rest\View(serializerGroups={"user_details"})
      */
     public function showAction(User $user)
     {
@@ -79,7 +80,7 @@ class UserController extends AbstractFOSRestController
      * }
      * )
      *
-     * @Rest\View(StatusCode=201,serializerGroups={"user_detail","user_create"})
+     * @Rest\View(StatusCode=201,serializerGroups={"user_details","user_create"})
      */
     public function createAction(User $user, EntityManagerInterface $em, ConstraintViolationList $violations)
     {
@@ -126,7 +127,7 @@ class UserController extends AbstractFOSRestController
      * }
      * )
      *
-     * @Rest\View(StatusCode=Response::HTTP_NO_CONTENT,serializerGroups={"user_detail","user_create"})
+     * @Rest\View(StatusCode=Response::HTTP_NO_CONTENT,serializerGroups={"user_details","user_create"})
      */
     public function putAction(User $user, EntityManagerInterface $em, ConstraintViolationList $violations, UserRepository $userRepository)
     {

@@ -8,10 +8,54 @@ use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ *
+ * @Hateoas\Relation(
+ *  "self",
+ *  href = @Hateoas\Route(
+ *      "user_show",
+ *       parameters = { "id" = "expr(object.getId())" },
+ *       absolute = true
+ *      ),
+ *      exclusion = @Hateoas\Exclusion(groups = {"user_details","user_list"})
+ * )
+ * @Hateoas\Relation(
+ *  "put",
+ *  href = @Hateoas\Route(
+ *      "user_put",
+ *      parameters = { "id" = "expr(object.getId())" },
+ *      absolute = true
+ *      ),
+ *      exclusion = @Hateoas\Exclusion(groups = {"user_details"})
+ * )
+ * @Hateoas\Relation(
+ *  "delete",
+ *  href = @Hateoas\Route(
+ *      "user_delete",
+ *       parameters = { "id" = "expr(object.getId())" },
+ *       absolute = true
+ *      ),
+ *      exclusion = @Hateoas\Exclusion(groups = {"user_details"})
+ * )
+ * @Hateoas\Relation(
+ *  "list_all",
+ *  href = @Hateoas\Route(
+ *      "user_list",
+ *       absolute = true
+ *      ),
+ *      exclusion = @Hateoas\Exclusion(groups = {"user_details"})
+ * )
+ * @Hateoas\Relation(
+ *  name="products_buy",
+ *  embedded = @Hateoas\Embedded(
+ *       "expr(object.getProductsBuy())",
+ *       exclusion = @Hateoas\Exclusion(groups = {"user_details"})
+ *      )
+ * )
  */
 class User
 {
@@ -19,7 +63,7 @@ class User
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @JMS\Groups({"user_detail"})
+     * @JMS\Groups({"user_details"})
      */
     private $id;
 
@@ -27,7 +71,7 @@ class User
      * @ORM\Column(type="string", length=255)
      *
      * @Assert\NotBlank(groups={"Create"})
-     * @JMS\Groups({"user_list", "user_detail"})
+     * @JMS\Groups({"user_list", "user_details"})
      */
     private $firstName;
 
@@ -35,7 +79,7 @@ class User
      * @ORM\Column(type="string", length=255)
      *
      * @Assert\NotBlank(groups={"Create"})
-     * @JMS\Groups({"user_list", "user_detail"})
+     * @JMS\Groups({"user_list", "user_details"})
      */
     private $lastName;
 
@@ -43,7 +87,7 @@ class User
      * @ORM\Column(type="string", length=255, unique=true)
      *
      * @Assert\NotBlank(groups={"Create"})
-     * @JMS\Groups({"user_list", "user_detail"})
+     * @JMS\Groups({"user_list", "user_details"})
      */
     private $email;
 
@@ -52,7 +96,8 @@ class User
      *
      * @Assert\NotBlank(groups={"Create"})
      * @JMS\Type("ArrayCollection<App\Entity\MobilePhone>")
-     * @JMS\Groups({"user_detail"})
+     *
+     * @JMS\Exclude
      */
     private $productsBuy;
 
