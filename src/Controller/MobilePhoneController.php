@@ -8,7 +8,15 @@ use App\Representation\MobilePhones;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Tag(name="Mobile Phones")
+ * @OA\Response(
+ *     response=401,
+ *     description="Invalid / Expired Token"
+ * )
+ */
 class MobilePhoneController extends AbstractController
 {
     /**
@@ -29,9 +37,13 @@ class MobilePhoneController extends AbstractController
      *     name="page",
      *     requirements="\d+",
      *     default="1",
-     *     description="The pagination offset"
+     *     description="Numero of target page"
      * )
-     *
+     *@OA\Response(
+     *     response=200,
+     *     description="Returns the paginated list of mobiles phones catalog"
+     * )
+     * @OA\Get(summary="Get the paginated list of mobile phones")
      * @Rest\View(serializerGroups={"Default","mobile_list"})
      */
     public function listAction(MobilePhoneRepository $mobilePhoneRepository, ParamFetcherInterface $paramFetcher)
@@ -53,6 +65,7 @@ class MobilePhoneController extends AbstractController
      * requirements = {"id"="\d+"}
      * )
      *
+     * @OA\Get(summary="Get details of mobile phone")
      * @Rest\View(serializerGroups={"mobile_details"})
      */
     public function showAction(MobilePhone $mobilePhone)

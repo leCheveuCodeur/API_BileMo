@@ -47,7 +47,7 @@ class MobilePhone
      * @ORM\Column(type="integer")
      *
      * @Assert\NotBlank(groups={"Create"})
-     * @JMS\Groups({"mobile_details","user_details"})
+     * @JMS\Groups({"mobile_details","user_details","user_create", "user_products"})
      * @JMS\Since("1.0")
      */
     private $id;

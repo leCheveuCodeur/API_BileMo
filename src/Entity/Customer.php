@@ -29,7 +29,6 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      *
-     * @JMS\Groups({"user_create"})
      * @JMS\Since("1.0")
      */
     private $companyName;

@@ -20,6 +20,7 @@
         "jms/serializer-bundle": "^3.10",
         "lexik/jwt-authentication-bundle": "^2.13",
         "liorchamla/faker-prices": "^2.0",
+        "nelmio/api-doc-bundle": "^4.6",
         "pagerfanta/doctrine-orm-adapter": "^3.3",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^6.2",

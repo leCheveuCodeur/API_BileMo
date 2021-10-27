@@ -73,7 +73,7 @@ class User
      * @ORM\Column(type="string", length=255)
      *
      * @Assert\NotBlank(groups={"Create"})
-     * @JMS\Groups({"user_list", "user_details"})
+     * @JMS\Groups({"user_list", "user_details", "user_create"})
      * @JMS\Since("1.0")
      */
     private $firstName;
@@ -82,7 +82,7 @@ class User
      * @ORM\Column(type="string", length=255)
      *
      * @Assert\NotBlank(groups={"Create"})
-     * @JMS\Groups({"user_list", "user_details"})
+     * @JMS\Groups({"user_list", "user_details", "user_create"})
      * @JMS\Since("1.0")
      */
     private $lastName;
@@ -91,7 +91,7 @@ class User
      * @ORM\Column(type="string", length=255, unique=true)
      *
      * @Assert\NotBlank(groups={"Create"})
-     * @JMS\Groups({"user_list", "user_details"})
+     * @JMS\Groups({"user_list", "user_details", "user_create"})
      * @JMS\Since("1.0")
      */
     private $email;
@@ -102,7 +102,6 @@ class User
      * @Assert\NotBlank(groups={"Create"})
      * @JMS\Type("ArrayCollection<App\Entity\MobilePhone>")
      *
-     * @JMS\Exclude
      * @JMS\Since("1.0")
      */
     private $productsBuy;
@@ -111,7 +110,7 @@ class User
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="Users")
      * @ORM\JoinColumn(nullable=false)
      *
-     * @JMS\Groups({"user_create"})
+     * @JMS\Exclude
      * @JMS\Since("1.0")
      */
     private $customer;
