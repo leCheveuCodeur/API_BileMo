@@ -24,10 +24,9 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *      exclusion = @Hateoas\Exclusion(groups = {"user_details","user_list"})
  * )
  * @Hateoas\Relation(
- *  "put",
+ *  "patch",
  *  href = @Hateoas\Route(
- *      "user_put",
- *      parameters = { "id" = "expr(object.getId())" },
+ *      "user_patch",
  *      absolute = true
  *      ),
  *      exclusion = @Hateoas\Exclusion(groups = {"user_details"})

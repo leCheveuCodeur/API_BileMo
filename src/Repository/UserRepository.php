@@ -25,7 +25,6 @@ class UserRepository extends AbstractRepository
             ->where('u.customer = :customerId')
             ->orderBy('u.id', $order)
             ->setParameter('customerId', $customerId);
-
         return $this->paginate($qb, $route, $maxPerPages, $startedPage);
     }
 }

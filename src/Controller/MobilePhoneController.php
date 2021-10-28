@@ -3,15 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\MobilePhone;
+use OpenApi\Annotations as OA;
 use App\Repository\MobilePhoneRepository;
-use App\Representation\MobilePhones;
-use App\Service\SaltCache;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use OpenApi\Annotations as OA;
-use Symfony\Contracts\Cache\CacheInterface;
-use Symfony\Contracts\Cache\ItemInterface;
 
 /**
  * @OA\Tag(name="Mobile Phones")
@@ -48,19 +45,17 @@ class MobilePhoneController extends AbstractController
      * )
      * @OA\Get(summary="Get the paginated list of mobile phones")
      * @Rest\View(serializerGroups={"Default","mobile_list"})
+     *
+     * @Cache(expires="tomorrow", public=true)
      */
-    public function listAction(MobilePhoneRepository $mobilePhoneRepository, ParamFetcherInterface $paramFetcher, CacheInterface $cache, SaltCache $saltCache)
+    public function listAction(MobilePhoneRepository $mobilePhoneRepository, ParamFetcherInterface $paramFetcher)
     {
-        return $cache->get('mobiles_' . $saltCache->salt(), function (ItemInterface $item) use ($mobilePhoneRepository, $paramFetcher) {
-            $item->expiresAfter(3600);
-
-            return $mobilePhoneRepository->search(
-                "mobile_list",
-                $paramFetcher->get('order'),
-                $paramFetcher->get('per_page'),
-                $paramFetcher->get('page')
-            );
-        });
+        return $mobilePhoneRepository->search(
+            "mobile_list",
+            $paramFetcher->get('order'),
+            $paramFetcher->get('per_page'),
+            $paramFetcher->get('page')
+        );
     }
 
     /**
@@ -72,13 +67,12 @@ class MobilePhoneController extends AbstractController
      *
      * @OA\Get(summary="Get details of mobile phone")
      * @Rest\View(serializerGroups={"mobile_details"})
+     *
+     * @Cache(expires="tomorrow", public=true)
      */
-    public function showAction(MobilePhone $mobilePhone, CacheInterface $cache)
+    public function showAction(MobilePhone $mobilePhone)
     {
-        return $cache->get('mobile_' . $mobilePhone->getId(), function (ItemInterface $item) use ($mobilePhone) {
-            $item->expiresAfter(3600);
-
-            return $mobilePhone;
-        });
+        \sleep(3);
+        return $mobilePhone;
     }
 }
