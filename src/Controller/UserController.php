@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use OpenApi\Annotations as OA;
 use App\Repository\UserRepository;
+use App\Service\SaltCache;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,8 @@ use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 /**
  * @OA\Tag(name="Users")
@@ -52,18 +55,21 @@ class UserController extends AbstractFOSRestController
      * @OA\Get(summary="Get the paginated list of users")
      * @Rest\View(serializerGroups={"Default","user_list"})
      */
-    public function listAction(UserRepository $userRepository, ParamFetcherInterface $paramFetcher)
+    public function listAction(UserRepository $userRepository, ParamFetcherInterface $paramFetcher, CacheInterface $cache, SaltCache $saltCache)
     {
-        $customerId = $this->getUser()->getId();
-        $paginatedCollection = $userRepository->search(
-            $customerId,
-            "user_list",
-            $paramFetcher->get('order'),
-            $paramFetcher->get('per_page'),
-            $paramFetcher->get('page')
-        );
+        return $cache->get('users_' . $saltCache->salt(), function (ItemInterface $item) use ($userRepository, $paramFetcher) {
+            $item->expiresAfter(3600);
 
-        return $paginatedCollection;
+            $customerId = $this->getUser()->getId();
+            $paginatedCollection = $userRepository->search(
+                $customerId,
+                "user_list",
+                $paramFetcher->get('order'),
+                $paramFetcher->get('per_page'),
+                $paramFetcher->get('page')
+            );
+            return $paginatedCollection;
+        });
     }
 
     /**
@@ -80,9 +86,13 @@ class UserController extends AbstractFOSRestController
      * @OA\Get(summary="Get the details of user")
      * @Rest\View(serializerGroups={"user_details"})
      */
-    public function showAction(User $user)
+    public function showAction(User $user, CacheInterface $cache)
     {
-        return $user;
+        return $cache->get('user_' . $user->getId(), function (ItemInterface $item) use ($user) {
+            $item->expiresAfter(3600);
+
+            return $user;
+        });
     }
 
     /**
@@ -140,7 +150,7 @@ class UserController extends AbstractFOSRestController
      * @OA\Post(summary="Add a new user")
      * @Rest\View(StatusCode=201,serializerGroups={"user_details","user_products"})
      */
-    public function createAction(User $user, EntityManagerInterface $em, ConstraintViolationList $violations)
+    public function createAction(User $user, EntityManagerInterface $em, ConstraintViolationList $violations, CacheInterface $cache, SaltCache $saltCache)
     {
         if (\count($violations)) {
             $message = 'The JSON sent contains invalid data: ';
@@ -152,6 +162,8 @@ class UserController extends AbstractFOSRestController
         $user->setCustomer($this->getUser());
         $em->persist($user);
         $em->flush();
+
+        $cache->delete('users_' . $saltCache->salt());
 
         return $this->view($user, Response::HTTP_CREATED, ['Location' => $this->generateUrl('user_show', ['id' => $user->getId()])]);
     }
@@ -170,10 +182,12 @@ class UserController extends AbstractFOSRestController
      * @OA\Delete(summary="Delete user")
      * @Rest\View(StatusCode=Response::HTTP_NO_CONTENT)
      */
-    public function deleteAction(User $user, EntityManagerInterface $em)
+    public function deleteAction(User $user, EntityManagerInterface $em, CacheInterface $cache, SaltCache $saltCache)
     {
         $em->remove($user);
         $em->flush();
+
+        $cache->delete('users_' . $saltCache->salt());
     }
 
 
@@ -219,7 +233,7 @@ class UserController extends AbstractFOSRestController
      * @OA\Patch(summary="Update user")
      * @Rest\View(StatusCode=Response::HTTP_NO_CONTENT,serializerGroups={"user_details"})
      */
-    public function putAction(User $user, EntityManagerInterface $em, ConstraintViolationList $violations)
+    public function putAction(User $user, EntityManagerInterface $em, ConstraintViolationList $violations, CacheInterface $cache, SaltCache $saltCache)
     {
         if (\count($violations)) {
             $message = 'The JSON sent contains invalid data: ';
@@ -231,6 +245,8 @@ class UserController extends AbstractFOSRestController
 
         $em->persist($user);
         $em->flush();
+
+        $cache->delete('users_' . $saltCache->salt());
 
         return $this->view($user, Response::HTTP_CREATED, ['Location' => $this->generateUrl('user_show', ['id' => $user->getId()])]);
     }

@@ -17,6 +17,10 @@ framework:
     php_errors:
         log: true
 
+    http_cache:
+        enabled: true
+        debug: true
+
 when@test:
     framework:
         test: true
