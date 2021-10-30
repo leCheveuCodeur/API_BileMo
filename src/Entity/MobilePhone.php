@@ -69,7 +69,7 @@ class MobilePhone
     private $manufacturer;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      *
      * @JMS\Groups({"mobile_details"})
      * @JMS\Since("1.0")
@@ -121,12 +121,12 @@ class MobilePhone
         return $this;
     }
 
-    public function getYear(): ?string
+    public function getYear(): ?int
     {
         return $this->year;
     }
 
-    public function setYear(string $year): self
+    public function setYear(int $year): self
     {
         $this->year = $year;
 
