@@ -101,6 +101,7 @@ class User
      * @Assert\NotBlank(groups={"Create"})
      * @JMS\Type("ArrayCollection<App\Entity\MobilePhone>")
      *
+     * @JMS\Groups({"user_create"})
      * @JMS\Since("1.0")
      */
     private $productsBuy;
