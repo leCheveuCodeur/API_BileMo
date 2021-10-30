@@ -4,7 +4,7 @@
 
 This project is the 7th project of the [Developer PHP / Symfony](https://openclassrooms.com/fr/paths/59-developpeur-dapplication-php-symfony) formation of [Openclassrooms](https://openclassrooms.com/).
 
-The goal of this project to make an API that repect the level 3 of Richardson model with cache management.
+The goal of this project to make an API that respect the level 3 of Richardson model with cache management.
 
 Concerning the authentication it's managed via JWT Token and Refresh Token
 
