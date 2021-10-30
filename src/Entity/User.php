@@ -63,7 +63,7 @@ class User
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
-     * @JMS\Groups({"user_details"})
+     * @JMS\Groups({"user_list","user_details"})
      * @JMS\Since("1.0")
      */
     private $id;
