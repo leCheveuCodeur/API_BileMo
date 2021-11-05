@@ -57,21 +57,7 @@ class UserController extends AbstractFOSRestController
      */
     public function listAction(UserRepository $userRepository, ParamFetcherInterface $paramFetcher)
     {
-        // return $cache->get('users_' . $saltCache->salt(), function (ItemInterface $item) use ($userRepository, $paramFetcher) {
-        //     $item->expiresAfter(3600);
-
-        //     $customerId = $this->getUser()->getId();
-        //     $paginatedCollection = $userRepository->search(
-        //         $customerId,
-        //         "user_list",
-        //         $paramFetcher->get('order'),
-        //         $paramFetcher->get('per_page'),
-        //         $paramFetcher->get('page')
-        //     );
-        //     return $paginatedCollection;
-        // });
         $customerId = $this->getUser()->getId();
-        \sleep(3);
         $paginatedCollection = $userRepository->search(
             $customerId,
             "user_list",

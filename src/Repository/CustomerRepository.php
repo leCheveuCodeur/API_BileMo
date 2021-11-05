@@ -38,15 +38,4 @@ class CustomerRepository extends AbstractRepository implements PasswordUpgraderI
         $this->_em->flush();
     }
 
-    // public function loadUserByUsername(string $username)
-    // {
-    // \dd('ici');
-    //     return $this->createQueryBuilder('c')
-    //         ->where('c.company_name = :username')
-    //         ->orWhere('c.email = :username')
-    //         ->setParameter('username', $username)
-    //         ->getQuery()
-    //         ->getOneOrNullResult();
-    // }
-
 }

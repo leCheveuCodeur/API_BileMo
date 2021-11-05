@@ -72,7 +72,6 @@ class MobilePhoneController extends AbstractController
      */
     public function showAction(MobilePhone $mobilePhone)
     {
-        \sleep(3);
         return $mobilePhone;
     }
 }
