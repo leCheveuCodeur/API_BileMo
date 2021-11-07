@@ -87,7 +87,7 @@ class User
     private $lastName;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      *
      * @Assert\NotBlank(groups={"Create"})
      * @JMS\Groups({"user_list", "user_details", "user_create"})
